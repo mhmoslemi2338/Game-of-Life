@@ -9,19 +9,25 @@ void delay(int milli_seconds) {
 } 
 
 	
-void draw(int h,int w,char tmp[w][h]){
+void draw(int h,int w,char tmp[w][h],int turn){
 	system("CLS");
 	int i,j;
+	printf(" ");
+	for(j=0;j<h;j++)
+		printf("==");
+	printf("\n");
 	for(i=0;i<w;i++){
+		printf("|");
 		for(j=0;j<h;j++){
 			printf(tmp[i][j]?"#":" ");
 			printf(" ");
 		}
 		printf("|\n");
 		if(i==w-1){
+			printf(" ");
 			for(j=0;j<h;j++)
 				printf("==");
-			printf("\n");
+			printf("\n\n  size = %d\t generation = %d \n",h,turn);
 		}
 	}
 }
@@ -55,24 +61,28 @@ void Evolution(int h,int w,char tmp[w][h]){
 
 int main(){
 	srand(time(0));
-	system("mode con: cols=120 lines=40");
+	system("mode con: cols=100 lines=50");
+	
+	printf("\n  Enter the universe size(recommend 30) : ");
+	int h;
+	scanf("%d",&h);
 	
 	
-	int h=20;
-	int w=20;
+	int w=h;
 	char world[w][h];
 	
 	int i,j;
 	for(i=0;i<w;i++){
 		for(j=0;j<h;j++){
-			world[i][j]=rand()< RAND_MAX/5 ? 1 : 0;
+			world[i][j]=rand()< RAND_MAX/8 ? 1 : 0;
 		}
 	}
-
+	int turn=1;
 	while(1){	
-	draw(h,w,world);
+	draw(h,w,world,turn);
 	Evolution(h,w,world);
-	delay(800); // in milli sec
+	turn++;
+	delay(700); // in milli sec
 	}
 	
 	return 0;
